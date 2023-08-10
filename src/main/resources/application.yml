@@ -1,0 +1,21 @@
+spring:
+  activemq:
+    broker-url: "vm://embedded?broker.persistent=false"
+  # DATASOURCE
+  datasource:
+    url: "jdbc:h2:mem:challenge-three"
+    driverClassName: "org.h2.Driver"
+    username: "pedro"
+    password:
+  # H2 Console
+  h2:
+    console:
+      enabled: "true"
+  # JPA
+  jpa:
+    database-platform: "org.hibernate.dialect.H2Dialect"
+    hibernate:
+      ddl-auto: "create-drop"
+
+server:
+  port: "8080"
