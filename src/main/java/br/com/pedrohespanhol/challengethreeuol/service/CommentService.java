@@ -1,12 +1,12 @@
 package br.com.pedrohespanhol.challengethreeuol.service;
 
-import br.com.pedrohespanhol.challengethreeuol.dto.CommentDTO;
 import br.com.pedrohespanhol.challengethreeuol.model.Comment;
+import org.springframework.scheduling.annotation.Async;
 
 import java.util.List;
 
 public interface CommentService {
 
-    List<Comment> getComments(Long postId);
-
+    @Async
+    List<Comment> getAllComments(Long postId);
 }

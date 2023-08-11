@@ -1,22 +1,24 @@
 package br.com.pedrohespanhol.challengethreeuol.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class PostDTO {
 
-    @Min(1)
-    @Max(100)
+    @JsonProperty("id")
     private Long id;
 
+    @JsonProperty("title")
     private String title;
+
+    @JsonProperty("body")
     private String body;
 
 }

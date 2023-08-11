@@ -2,24 +2,30 @@ package br.com.pedrohespanhol.challengethreeuol.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
 import lombok.*;
 
-@Data
+@Getter
+@Setter
+@ToString
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
+@Valid
 @Entity
-@Table(name = "postapi")
 public class Post {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @JsonProperty(value = "id")
+    @Min(1)
+    @Max(100)
     private Long id;
 
-    @JsonProperty(value = "title")
+    @Column(length = 500)
     private String title;
 
-    @JsonProperty(value = "body")
+    @Column(length = 500)
     private String body;
 
 }

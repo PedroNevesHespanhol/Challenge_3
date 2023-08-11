@@ -1,22 +1,31 @@
 package br.com.pedrohespanhol.challengethreeuol.client;
 
-import br.com.pedrohespanhol.challengethreeuol.model.Post;
+import br.com.pedrohespanhol.challengethreeuol.dto.CommentDTO;
+import br.com.pedrohespanhol.challengethreeuol.dto.PostDTO;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.concurrent.CompletableFuture;
 
 import static br.com.pedrohespanhol.challengethreeuol.utils.AppConstants.API_URL;
 
 @FeignClient(name = "post", url = API_URL)
 public interface PostApiClient {
 
-    @GetMapping("/posts")
-    ResponseEntity<List<Post>> getPosts();
+    @GetMapping("/{postId}")
+    ResponseEntity<PostDTO> getPostById(@PathVariable(name = "postId") Long postId);
+
+    @PostMapping("/{postId}")
+    ResponseEntity<PostDTO> processPost(@PathVariable(name = "postId") Long postId);
+
+    @GetMapping("/{postId}/comments")
+    ResponseEntity<List<CommentDTO>> getComments(@PathVariable(name = "postId") Long postId);
+
+    @PutMapping("/{postId}")
+    ResponseEntity<PostDTO> reprocessPost(@PathVariable(name = "postId") Long postId);
+
+    @DeleteMapping("/{postId}")
+    ResponseEntity<PostDTO> disablePost(@PathVariable(name = "postId") Long postId);
 
 }

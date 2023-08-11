@@ -1,12 +1,13 @@
 package br.com.pedrohespanhol.challengethreeuol.enums;
 
-public enum HistoryEnum {
+public enum State {
 
     CREATED,
+    FAILED,
     POST_FIND,
     POST_OK,
-    COMMENT_FIND,
-    COMMENT_OK,
+    COMMENTS_FIND,
+    COMMENTS_OK,
     ENABLED,
     UPDATING,
     DISABLED
