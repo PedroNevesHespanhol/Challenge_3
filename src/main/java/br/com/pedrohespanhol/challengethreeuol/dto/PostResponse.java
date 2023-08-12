@@ -5,6 +5,7 @@ import br.com.pedrohespanhol.challengethreeuol.model.History;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.Column;
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 import java.util.List;
@@ -28,6 +29,8 @@ public class PostResponse {
 
     private List<Comment> comments;
 
+    @NotEmpty
+    @NotNull
     private List<History> history;
 
 }

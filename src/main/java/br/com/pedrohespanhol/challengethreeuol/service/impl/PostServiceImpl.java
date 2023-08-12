@@ -49,38 +49,22 @@ public class PostServiceImpl implements PostService{
         this.objectMapper = objectMapper;
     }
 
-//    private History createHistory(State state, Long postId) {
-//        History status = historyRepository.save(new History(state, postId));
-//
-//        return status;
-//    }
-
     @Override
     @Async
-    public void processPost(Long postId) throws JsonProcessingException {
-        if (postId < 1 || postId > 100) throw new RuntimeException("Id must be minimum 1 and maximum 100!");
-
-        Post post = new Post();
-        post.setId(postId);
-
+    public void processPost(Long postId) {
         if (postRepository.findById(postId).isPresent())
             throw new RuntimeException(String.format("Id %d is already in use", postId));
-
-        postRepository.save(post);
 
         historyRepository.save(new History(State.CREATED, postId));
     }
 
     @Override
     @Async
-    public void postFind(Long postId) throws JsonProcessingException {
+    public void postFind(Long postId) {
 
         try {
             PostDTO postDTO = postApiClient.getPostById(postId).getBody();
-
             historyRepository.save(new History(State.POST_FIND, postId));
-
-            postOk(postId, postDTO);
 
             String message = objectMapper.writeValueAsString(postDTO);
             producer.sendMessage(destinationQueue, message);
@@ -95,7 +79,9 @@ public class PostServiceImpl implements PostService{
 
     @Override
     @Async
-    public void postOk(Long postId, PostDTO postDTO) throws JsonProcessingException {
+    public void postOk(Long postId) {
+
+        PostDTO postDTO = postApiClient.getPostById(postId).getBody();
 
         Post post = postToEntity(postDTO);
 
@@ -110,7 +96,7 @@ public class PostServiceImpl implements PostService{
 
     @Override
     @Async
-    public void commentsFind(Long postId) throws JsonProcessingException {
+    public void commentsFind(Long postId) {
         try {
             List<CommentDTO> commentDTOs = postApiClient.getComments(postId).getBody();
 
@@ -131,7 +117,7 @@ public class PostServiceImpl implements PostService{
 
     @Override
     @Async
-    public void commentsOk(Long postId) throws JsonProcessingException {
+    public void commentsOk(Long postId) {
 
         List<CommentDTO> commentDTOs = postApiClient.getComments(postId).getBody();
 
@@ -151,14 +137,34 @@ public class PostServiceImpl implements PostService{
 
     @Override
     @Async
-    public void reprocessPost(Long postId) throws JsonProcessingException {
-        if (postId < 1 || postId > 100) throw new RuntimeException("Id must be minimum 1 and maximum 100!");
+    public void disablePost(Long postId) {
+        List<History> histories = historyRepository.findByPostId(postId);
+
+        int lastIndex = 0;
+        if (!histories.isEmpty()) {
+            lastIndex = histories.size() - 1;
+        }
+
+        History history = histories.get(lastIndex);
+        if (history.getState().equals(State.ENABLED) || history.getState().equals(State.FAILED)) {
+            historyRepository.save(new History(State.DISABLED, postId));
+        }
     }
 
     @Override
     @Async
-    public void disablePost(Long postId) throws JsonProcessingException {
+    public void reprocessPost(Long postId) {
 
+        List<History> histories = historyRepository.findByPostId(postId);
+        int lastIndex = 0;
+        if (!histories.isEmpty()) {
+            lastIndex = histories.size() - 1;
+        }
+        History history= histories.get(lastIndex);
+        if (history.getState().equals(State.ENABLED) || history.getState().equals(State.DISABLED) ) {
+            historyRepository.save(new History(State.UPDATING, postId));
+            historyRepository.save(new History(State.ENABLED, postId));
+        }
     }
 
     @Override

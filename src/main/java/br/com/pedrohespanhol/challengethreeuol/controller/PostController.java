@@ -28,17 +28,34 @@ public class PostController {
         this.historyService = historyService;
     }
 
-    @GetMapping("/{postId}")
-    public ResponseEntity<PostResponse> postFind(@PathVariable Long postId) throws JsonProcessingException {
-
+    @PostMapping("/{postId}")
+    public ResponseEntity<Void> processPost(@PathVariable(name = "postId") Long postId) throws JsonProcessingException {
+        postService.processPost(postId);
         postService.postFind(postId);
         postService.postOk(postId);
         postService.commentsFind(postId);
         postService.commentsOk(postId);
+        return ResponseEntity.ok(null);
+    }
 
-        List<Post> posts = postService.getAllPosts();
+    @PutMapping("/{postId}")
+    public ResponseEntity<Void> reprocessPost(@PathVariable(name = "postId") Long postId) throws JsonProcessingException {
+        postService.reprocessPost(postId);
+        return ResponseEntity.ok(null);
+    }
 
-        PostResponse response = posts.stream().map(post -> {
+    @DeleteMapping("/{postId}")
+    public ResponseEntity<Void> disablePost(@PathVariable(name = "postId") Long postId) throws JsonProcessingException {
+        postService.disablePost(postId);
+        return ResponseEntity.ok(null);
+    }
+
+    @GetMapping
+    public ResponseEntity<List<PostResponse>> queryPosts() {
+
+        List<Post> posts = postService.queryPosts();
+
+        List<PostResponse> response = posts.stream().map(post -> {
             List<Comment> comments = commentService.getAllComments(post.getId());
             List<History> histories = historyService.getAllHistory(post.getId());
             return PostResponse.builder()
@@ -48,7 +65,7 @@ public class PostController {
                     .comments(comments)
                     .history(histories)
                     .build();
-        }).toList().get(0);
+        }).toList();
 
         return new ResponseEntity<>(response, HttpStatus.OK);
     }

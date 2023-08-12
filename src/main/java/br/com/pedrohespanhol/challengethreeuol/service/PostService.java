@@ -16,7 +16,7 @@ public interface PostService {
     void postFind(Long postId) throws JsonProcessingException;
 
     @Async
-    void postOk(Long postId, PostDTO postDTO) throws JsonProcessingException;
+    void postOk(Long postId) throws JsonProcessingException;
 
     @Async
     void commentsFind(Long postId) throws JsonProcessingException;

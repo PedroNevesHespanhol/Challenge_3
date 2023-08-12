@@ -16,16 +16,7 @@ public interface PostApiClient {
     @GetMapping("/{postId}")
     ResponseEntity<PostDTO> getPostById(@PathVariable(name = "postId") Long postId);
 
-    @PostMapping("/{postId}")
-    ResponseEntity<PostDTO> processPost(@PathVariable(name = "postId") Long postId);
-
     @GetMapping("/{postId}/comments")
     ResponseEntity<List<CommentDTO>> getComments(@PathVariable(name = "postId") Long postId);
-
-    @PutMapping("/{postId}")
-    ResponseEntity<PostDTO> reprocessPost(@PathVariable(name = "postId") Long postId);
-
-    @DeleteMapping("/{postId}")
-    ResponseEntity<PostDTO> disablePost(@PathVariable(name = "postId") Long postId);
 
 }
