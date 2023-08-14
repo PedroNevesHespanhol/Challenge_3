@@ -14,5 +14,5 @@ To this project i used Java, SpringBoot, H2 database to save the data, OpenFeign
 3 - When running the application, the h2 database will be created and according with the requests, the posts, comments and history will be automatically added in the tables, and with the GET request, the array with all posts, with comments and history will be show. <br> <br>
 
 # Documentation
-The documentation of the API can be visualized at http://localhost:8080/swagger-ui.html
+The documentation of the API can be visualized at http://localhost:8080/swagger-ui.html with the application running.
 
