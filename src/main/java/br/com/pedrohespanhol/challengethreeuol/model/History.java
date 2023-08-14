@@ -6,7 +6,7 @@ import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.beans.ConstructorProperties;
-import java.time.LocalDateTime;
+import java.time.Instant;
 
 @Builder
 @Getter
@@ -21,7 +21,7 @@ public class History {
     private Long id;
 
     @CreationTimestamp
-    private LocalDateTime date;
+    private Instant date;
 
     @Enumerated(EnumType.STRING)
     private State state;

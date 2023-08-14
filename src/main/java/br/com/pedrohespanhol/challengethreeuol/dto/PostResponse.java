@@ -21,10 +21,8 @@ public class PostResponse {
 
     private Long id;
 
-    @Column(length = 500)
     private String title;
 
-    @Column(length = 500)
     private String body;
 
     private List<Comment> comments;

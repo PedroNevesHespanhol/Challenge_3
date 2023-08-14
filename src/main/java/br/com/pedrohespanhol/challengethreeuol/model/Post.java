@@ -28,4 +28,6 @@ public class Post {
     @Column(length = 500)
     private String body;
 
+    private boolean deleted = false;
+
 }

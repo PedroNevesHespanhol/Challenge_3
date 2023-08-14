@@ -10,13 +10,13 @@ import java.util.List;
 
 import static br.com.pedrohespanhol.challengethreeuol.utils.AppConstants.API_URL;
 
-@FeignClient(name = "post", url = API_URL)
+@FeignClient(name = "postAPI", url = API_URL)
 public interface PostApiClient {
 
     @GetMapping("/{postId}")
-    ResponseEntity<PostDTO> getPostById(@PathVariable(name = "postId") Long postId);
+    PostDTO getPostById(@PathVariable(name = "postId") Long postId);
 
     @GetMapping("/{postId}/comments")
-    ResponseEntity<List<CommentDTO>> getComments(@PathVariable(name = "postId") Long postId);
+    List<CommentDTO> getComments(@PathVariable(name = "postId") Long postId);
 
 }
