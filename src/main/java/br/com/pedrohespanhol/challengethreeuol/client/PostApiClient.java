@@ -3,7 +3,6 @@ package br.com.pedrohespanhol.challengethreeuol.client;
 import br.com.pedrohespanhol.challengethreeuol.dto.CommentDTO;
 import br.com.pedrohespanhol.challengethreeuol.dto.PostDTO;
 import org.springframework.cloud.openfeign.FeignClient;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;

@@ -8,7 +8,6 @@ import org.hibernate.annotations.CreationTimestamp;
 import java.beans.ConstructorProperties;
 import java.time.Instant;
 
-@Builder
 @Getter
 @Setter
 @NoArgsConstructor

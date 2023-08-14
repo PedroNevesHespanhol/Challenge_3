@@ -2,7 +2,6 @@ package br.com.pedrohespanhol.challengethreeuol.jms;
 
 import br.com.pedrohespanhol.challengethreeuol.client.PostApiClient;
 import br.com.pedrohespanhol.challengethreeuol.dto.CommentDTO;
-import br.com.pedrohespanhol.challengethreeuol.dto.PostDTO;
 import br.com.pedrohespanhol.challengethreeuol.enums.State;
 import br.com.pedrohespanhol.challengethreeuol.model.Comment;
 import br.com.pedrohespanhol.challengethreeuol.model.History;
@@ -18,6 +17,8 @@ import org.springframework.jms.annotation.JmsListener;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+
+import static br.com.pedrohespanhol.challengethreeuol.utils.AppConstants.QUEUE;
 
 @Component
 public class Consumer {
@@ -40,7 +41,7 @@ public class Consumer {
         this.mapper = mapper;
     }
 
-    @JmsListener(destination = "posts.queue")
+    @JmsListener(destination = QUEUE)
     public void receivePost(String message) throws JsonProcessingException {
 
         ObjectMapper objectMapper = new ObjectMapper();
@@ -67,7 +68,6 @@ public class Consumer {
                 historyRepository.save(new History(State.POST_OK, post.getId()));
             }
 
-            // Fetch post comments from external API
             List<CommentDTO> commentDTOs = postApiClient.getComments(post.getId());
 
             if (commentDTOs.isEmpty()) {
@@ -84,7 +84,6 @@ public class Consumer {
         }
 
     }
-
     private Comment commentToEntity(CommentDTO commentDTO) {
         return mapper.map(commentDTO, Comment.class);
     }

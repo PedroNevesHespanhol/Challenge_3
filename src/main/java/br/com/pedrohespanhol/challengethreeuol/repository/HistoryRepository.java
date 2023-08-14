@@ -4,8 +4,7 @@ import br.com.pedrohespanhol.challengethreeuol.model.History;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
-import java.util.UUID;
 
-public interface HistoryRepository extends JpaRepository<History, UUID> {
+public interface HistoryRepository extends JpaRepository<History, Long> {
     List<History> findByPostId(Long postId);
 }

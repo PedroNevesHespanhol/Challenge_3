@@ -2,8 +2,8 @@ package br.com.pedrohespanhol.challengethreeuol.jms;
 
 import jakarta.jms.JMSException;
 import jakarta.jms.Message;
-import jakarta.jms.ObjectMessage;
 import jakarta.jms.Session;
+import jakarta.validation.constraints.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jms.core.JmsTemplate;
 import org.springframework.jms.core.MessageCreator;
@@ -18,9 +18,8 @@ public class Producer {
 
         jmsTemplate.send(queue, new MessageCreator() {
             @Override
-            public Message createMessage(Session session) throws JMSException {
-                ObjectMessage objectMessage = session.createObjectMessage(message);
-                return objectMessage;
+            public @NotNull Message createMessage(Session session) throws JMSException {
+                return session.createObjectMessage(message);
             }
         });
     }

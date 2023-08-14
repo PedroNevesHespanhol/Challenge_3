@@ -15,13 +15,14 @@ import br.com.pedrohespanhol.challengethreeuol.service.HistoryService;
 import br.com.pedrohespanhol.challengethreeuol.service.PostService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+
+import static br.com.pedrohespanhol.challengethreeuol.utils.AppConstants.QUEUE;
 
 @Service
 public class PostServiceImpl implements PostService{
@@ -34,9 +35,6 @@ public class PostServiceImpl implements PostService{
     private final Producer producer;
     private final ObjectMapper objectMapper;
     private final ExecutorService executorService = Executors.newFixedThreadPool(5);
-
-    @Value("posts.queue")
-    private String destinationQueue;
 
     public PostServiceImpl(PostApiClient postApiClient,
                            PostRepository postRepository,
@@ -63,7 +61,7 @@ public class PostServiceImpl implements PostService{
             if (postRepository.findById(postId).isEmpty()) historyRepository.save(new History(State.CREATED, postId));
 
             try {
-                producer.sendMessage(destinationQueue, objectMapper.writeValueAsString(postDTO));
+                producer.sendMessage(QUEUE, objectMapper.writeValueAsString(postDTO));
             } catch (JsonProcessingException e) {
                 throw new RuntimeException(e);
             }
@@ -90,7 +88,7 @@ public class PostServiceImpl implements PostService{
                 simplifiedHistory.put("postId", history.getPostId());
                 simplifiedHistory.put("state", history.getState());
                 try {
-                    producer.sendMessage(destinationQueue, objectMapper.writeValueAsString(simplifiedHistory));
+                    producer.sendMessage(QUEUE, objectMapper.writeValueAsString(simplifiedHistory));
                 } catch (JsonProcessingException e) {
                     throw new RuntimeException(e);
                 }
@@ -127,7 +125,7 @@ public class PostServiceImpl implements PostService{
                 simplifiedHistory.put("postId", history.getPostId());
                 simplifiedHistory.put("state", history.getState());
                 try {
-                    producer.sendMessage(destinationQueue, objectMapper.writeValueAsString(simplifiedHistory));
+                    producer.sendMessage(QUEUE, objectMapper.writeValueAsString(simplifiedHistory));
                 } catch (JsonProcessingException e) {
                     throw new RuntimeException(e);
                 }

@@ -1,10 +1,8 @@
 package br.com.pedrohespanhol.challengethreeuol.model;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.*;
 
-@Builder
 @Getter
 @Setter
 @NoArgsConstructor

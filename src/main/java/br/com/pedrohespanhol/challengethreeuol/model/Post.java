@@ -1,6 +1,5 @@
 package br.com.pedrohespanhol.challengethreeuol.model;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Max;
@@ -12,7 +11,6 @@ import lombok.*;
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
 @Valid
 @Entity
 public class Post {
