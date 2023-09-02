@@ -2,9 +2,14 @@
 
 This challenge is based on create an application that asynchronously fetches posts from an external API, enriches them with comment data, and keeps a log of processing updates. The client will then be able to search for posts and the history of states through the API immediately.<br> <br>
 
-# Technologies
-To this project i used Java, SpringBoot, H2 database to save the data, OpenFeign to consume the external API, and ActiveMQ Artemis for asynchronously fetches the posts and enriches them with comments and history.<br> <br>
+### 🛠️ Technologies
+The following technologies were used in this project:
 
+* [Java 17](https://www.oracle.com/br/java/)
+* [Spring Boot](https://spring.io/projects/spring-boot)
+* [MongoDB](https://www.mongodb.com/)
+* [Git](https://git-scm.com/)
+  
 # Steps to run the application 
 
 1 - Run the application with an IDE of your preference
